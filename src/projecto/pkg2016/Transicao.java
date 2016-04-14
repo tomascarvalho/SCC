@@ -12,15 +12,15 @@ package projecto.pkg2016;
 public class Transicao extends Evento
 {
 
-    public Transicao(double i, Simulador s, String tipo) 
+    public Transicao(double i, Simulador s, Servico tipo) 
     {
         super(i, s, tipo);
     }
     
     
-    void executa(Servico serv) 
+    void executa() 
     {
-        serv.removeServico();
+        s.getServico_loja().insereServico(tipo.removeServico());
     }
 
     public String toString() 

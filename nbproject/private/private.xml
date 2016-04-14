@@ -5,10 +5,9 @@
         <group>
             <file>file:/home/freitas/SCC/src/projecto/pkg2016/Servico.java</file>
             <file>file:/home/freitas/SCC/src/projecto/pkg2016/Saida.java</file>
+            <file>file:/home/freitas/SCC/src/projecto/pkg2016/Transicao.java</file>
             <file>file:/home/freitas/SCC/src/projecto/pkg2016/Simulador.java</file>
             <file>file:/home/freitas/SCC/src/projecto/pkg2016/Chegada.java</file>
-            <file>file:/home/freitas/SCC/src/projecto/pkg2016/ListaEventos.java</file>
-            <file>file:/home/freitas/SCC/src/projecto/pkg2016/RandomGenerator.java</file>
             <file>file:/home/freitas/SCC/src/projecto/pkg2016/Evento.java</file>
             <file>file:/home/freitas/SCC/src/projecto/pkg2016/Cliente.java</file>
         </group>

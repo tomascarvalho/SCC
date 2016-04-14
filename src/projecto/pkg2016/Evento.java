@@ -9,10 +9,10 @@ public abstract class Evento
 
     protected double instante;  // Instante de ocorrencia do evento
     protected Simulador s;      // Simulador onde ocorre o evento
-    protected String tipo;
+    protected Servico tipo;
 
 	//Construtor
-    Evento (double i, Simulador s, String tipo)
+    Evento (double i, Simulador s, Servico tipo)
     {
         instante = i;
         this.s = s;
@@ -28,7 +28,7 @@ public abstract class Evento
     }
 
     // Metodo que executa um evento; a ser definido em cada tipo de evento
-    abstract void executa (Servico s);
+    abstract void executa ();
 
     // Metodo que devolve o instante de ocorrencia do evento
     public double getInstante() 
@@ -36,15 +36,17 @@ public abstract class Evento
         return instante;
     }
 
-    public String getTipo() 
+    public Servico getTipo() 
     {
         return tipo;
     }
 
-    public void setTipo(String tipo) 
+    public void setTipo(Servico tipo) 
     {
         this.tipo = tipo;
     }
+
+    
     
     
 }

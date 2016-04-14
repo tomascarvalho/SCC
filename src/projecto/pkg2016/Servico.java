@@ -34,14 +34,13 @@ public class Servico
             estado ++;     // fica ocupado e
             // agenda saida do cliente c para daqui a s.getMedia_serv() instantes
             
-            if(tipo.equals("gasolina"))
+            if(tipo.equals("loja"))
             {
-                System.out.println("Nova transicao no instange: "+(s.getInstante() + s.getMedia_serv_gasolina()));
-                s.insereEvento(new Transicao((s.getInstante()+s.getMedia_serv_gasolina()),s,"loja"));
+                s.insereEvento (new Saida((s.getInstante()+s.getMedia_serv_loja()),s,this));
             }
             else
             {
-                s.insereEvento (new Saida((s.getInstante()+s.getMedia_serv_loja()),s,tipo));
+                s.insereEvento(new Transicao((s.getInstante()+s.getMedia_serv_bomba()),s,this));
             }
             
                        
@@ -50,8 +49,9 @@ public class Servico
     }
 
     // Metodo que remove cliente do servico
-    public void removeServico ()
+    public Cliente removeServico ()
     {
+        Cliente c = null;
         atendidos++; // Regista que acabou de atender + 1 cliente
         if (fila.size()== 0)
         {
@@ -61,19 +61,21 @@ public class Servico
         else // Se nao,
         { 
             // vai buscar proximo cliente a fila de espera e
-            // Cliente c = (Cliente)fila.firstElement();
+            c = (Cliente)fila.firstElement();
             fila.removeElementAt(0);
             // agenda a sua saida para daqui a s.getMedia_serv() instantes
-            if(tipo.equals("gasolina"))
+            
+            if(tipo.equals("loja"))
             {
-                s.insereEvento(new Transicao((s.getInstante()+s.getMedia_serv_gasolina()),s,"loja"));
+                s.insereEvento (new Saida((s.getInstante()+s.getMedia_serv_loja()),s,this));
             }
             else
             {
-                s.insereEvento (new Saida((s.getInstante()+s.getMedia_serv_loja()),s,tipo));
+                s.insereEvento(new Transicao((s.getInstante()+s.getMedia_serv_bomba()),s,this));
             }
             
         }
+        return c;
     }
 
     // Metodo que calcula valores para estatisticas, em cada passo da simulacao ou evento
@@ -102,7 +104,8 @@ public class Servico
         // Tempo m�dio de atendimento no servico
         double utilizacao_serv = soma_temp_serv / s.getInstante();
         // Apresenta resultados
-        System.out.println("\t"+tipo.toUpperCase()+"\n");
+        
+        System.out.println("------- "+tipo.toUpperCase()+" -------\n");
         System.out.println("Tempo medio de espera "+temp_med_fila);
         System.out.println("Comp. medio da fila "+comp_med_fila);
         System.out.println("Utilizacao do servico "+utilizacao_serv);

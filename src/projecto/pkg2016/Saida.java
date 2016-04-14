@@ -6,16 +6,16 @@ public class Saida extends Evento
 {
     //Construtor
     
-    Saida (double i, Simulador s, String tipo)
+    Saida (double i, Simulador s, Servico tipo)
     {
         super(i, s, tipo);
     }
 
     // Metodo que executa as accoes correspondentes a saida de um cliente
-    void executa (Servico serv)
+    void executa ()
     {
         // Retira cliente do servico
-        serv.removeServico();
+        tipo.removeServico();
     }
 
     // Metodo que descreve o evento.

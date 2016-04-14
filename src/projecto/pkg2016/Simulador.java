@@ -5,7 +5,7 @@ public class Simulador
     // Relogio de simulacao - variavel que contem o valor do tempo em cada instante
     private double instante;
     // Medias das distribuicoes de chegadas e de atendimento no servico
-    private double media_cheg, media_serv_gasolina;
+    private double media_cheg, media_serv_bomba;
     // Numero de clientes que vao ser atendidos
     private int n_clientes;
     // Servico - pode haver mais do que um num simulador
@@ -24,12 +24,12 @@ public class Simulador
     {
         // Inicializacao de parametros do simulador
         media_cheg = 1.2;
-        media_serv_gasolina = 4;
+        media_serv_bomba = 4;
         media_serv_loja = 1;
         n_clientes = 100;
         // Inicializacao do relogio de simulacao
         instante = 0;
-        instante_final = 100;
+        instante_final = 11;
         // Criacao do servico
         servico_gasolina = new Servico (this,"gasolina");
         servico_loja = new Servico(this,"loja");
@@ -37,7 +37,7 @@ public class Simulador
         lista = new ListaEventos(this);
         // Agendamento da primeira chegada
         // Se nao for feito, o simulador nao tem eventos para simular
-        insereEvento (new Chegada(instante, this,"gasolina"));
+        insereEvento (new Chegada(instante, this, servico_gasolina));
     }
 
     // programa principal
@@ -82,13 +82,10 @@ public class Simulador
         {
             //lista.print();                     // Mostra lista de eventos - desnecessario; e apenas informativo
             e1 = (Evento)(lista.removeFirst());  // Retira primeiro evento (e o mais iminente) da lista de eventos
-            System.out.println(e1.toString());
+            //System.out.println(e1.toString());
             instante = e1.getInstante();         // Actualiza relogio de simulacao
             act_stats();                         // Actualiza valores estatisticos
-            if(e1.getTipo().equals("gasolina"))
-                e1.executa(servico_gasolina);                 // Executa evento
-            else
-                e1.executa(servico_loja);
+            e1.executa();
         }
         relat();  // Apresenta resultados de simulacao finais
     }
@@ -106,15 +103,21 @@ public class Simulador
     }
 
     // Metodo que devolve a media dos tempos de servico
-    public double getMedia_serv_gasolina()
+    public double getMedia_serv_bomba()
     {
-        return media_serv_gasolina;
+        return media_serv_bomba;
     }
 
     public double getMedia_serv_loja() 
     {
         return media_serv_loja;
     }
+
+    public Servico getServico_loja() 
+    {
+        return servico_loja;
+    }
+    
     
     
 }
