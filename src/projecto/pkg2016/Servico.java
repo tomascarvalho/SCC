@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Servico 
 {
+    private String tipo;
     private int estado;                                     // Variavel que regista o estado do servico: 0 - livre; 1 - ocupado
     private int atendidos;                                  // Numero de clientes atendidos ate ao momento
     private double temp_ult, soma_temp_esp, soma_temp_serv; // Variaveis para calculos estatcsticos
@@ -13,9 +14,10 @@ public class Servico
     private Simulador s;                                    // Referencia para o simulador a que pertence o servico
 
     // Construtor
-    Servico (Simulador s)
+    Servico (Simulador s, String tipo)
     {
     	this.s = s;
+        this.tipo = tipo;
         fila = new Vector <Cliente>();      // Cria fila de espera
         estado = 0;                         // Livre
         temp_ult = s.getInstante();         // Tempo que passou desde o ultimo evento. Neste caso 0, porque a simulacao ainda nao comecou.
@@ -30,8 +32,19 @@ public class Servico
         if (estado == 0) // Se servico livre,
         { 
             estado ++;     // fica ocupado e
-            // agenda sa�da do cliente c para daqui a s.getMedia_serv() instantes
-            s.insereEvento (new Saida(s.getInstante()+s.getMedia_serv(), s));
+            // agenda saida do cliente c para daqui a s.getMedia_serv() instantes
+            
+            if(tipo.equals("gasolina"))
+            {
+                System.out.println("Nova transicao no instange: "+(s.getInstante() + s.getMedia_serv_gasolina()));
+                s.insereEvento(new Transicao((s.getInstante()+s.getMedia_serv_gasolina()),s,"loja"));
+            }
+            else
+            {
+                s.insereEvento (new Saida((s.getInstante()+s.getMedia_serv_loja()),s,tipo));
+            }
+            
+                       
         }
         else fila.addElement(c); // Se servico ocupado, o cliente vai para a fila de espera
     }
@@ -40,14 +53,26 @@ public class Servico
     public void removeServico ()
     {
         atendidos++; // Regista que acabou de atender + 1 cliente
-        if (fila.size()== 0) estado --; // Se a fila esta vazia, liberta o servico
+        if (fila.size()== 0)
+        {
+            // Se a fila esta vazia, liberta o servico
+            estado --;
+        } 
         else // Se nao,
         { 
             // vai buscar proximo cliente a fila de espera e
             // Cliente c = (Cliente)fila.firstElement();
             fila.removeElementAt(0);
             // agenda a sua saida para daqui a s.getMedia_serv() instantes
-            s.insereEvento (new Saida(s.getInstante()+s.getMedia_serv(),s));
+            if(tipo.equals("gasolina"))
+            {
+                s.insereEvento(new Transicao((s.getInstante()+s.getMedia_serv_gasolina()),s,"loja"));
+            }
+            else
+            {
+                s.insereEvento (new Saida((s.getInstante()+s.getMedia_serv_loja()),s,tipo));
+            }
+            
         }
     }
 
@@ -77,6 +102,7 @@ public class Servico
         // Tempo m�dio de atendimento no servico
         double utilizacao_serv = soma_temp_serv / s.getInstante();
         // Apresenta resultados
+        System.out.println("\t"+tipo.toUpperCase()+"\n");
         System.out.println("Tempo medio de espera "+temp_med_fila);
         System.out.println("Comp. medio da fila "+comp_med_fila);
         System.out.println("Utilizacao do servico "+utilizacao_serv);

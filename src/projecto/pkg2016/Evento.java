@@ -9,12 +9,14 @@ public abstract class Evento
 
     protected double instante;  // Instante de ocorrencia do evento
     protected Simulador s;      // Simulador onde ocorre o evento
+    protected String tipo;
 
 	//Construtor
-    Evento (double i, Simulador s)
+    Evento (double i, Simulador s, String tipo)
     {
         instante = i;
         this.s = s;
+        this.tipo = tipo;
     }
 
     // Metodo que determina se o evento corrente ocorre primeiro, ou nao, do que o evento e1
@@ -33,4 +35,16 @@ public abstract class Evento
     {
         return instante;
     }
+
+    public String getTipo() 
+    {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) 
+    {
+        this.tipo = tipo;
+    }
+    
+    
 }

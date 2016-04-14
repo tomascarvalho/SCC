@@ -5,9 +5,10 @@ package projecto.pkg2016;
 public class Saida extends Evento 
 {
     //Construtor
-    Saida (double i, Simulador s)
+    
+    Saida (double i, Simulador s, String tipo)
     {
-        super(i, s);
+        super(i, s, tipo);
     }
 
     // Metodo que executa as accoes correspondentes a saida de um cliente
@@ -21,6 +22,6 @@ public class Saida extends Evento
     // Para ser usado na listagem da lista de eventos.
     public String toString()
     {
-         return "Sa�da em " + instante;
+         return "Saida em " + instante + " do tipo " + tipo;
     }
 }

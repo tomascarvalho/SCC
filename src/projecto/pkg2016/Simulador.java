@@ -5,31 +5,39 @@ public class Simulador
     // Relogio de simulacao - variavel que contem o valor do tempo em cada instante
     private double instante;
     // Medias das distribuicoes de chegadas e de atendimento no servico
-    private double media_cheg, media_serv;
+    private double media_cheg, media_serv_gasolina;
     // Numero de clientes que vao ser atendidos
     private int n_clientes;
     // Servico - pode haver mais do que um num simulador
-    private Servico servico;
+    private Servico servico_gasolina;
+    
+    private Servico servico_loja;
     // Lista de eventos - onde ficam registados todos os eventos que vao ocorrer na simulacao
     // Cada simulador so tem uma
     private ListaEventos lista;
+    
+    private double instante_final;
 
+    private double media_serv_loja;
     // Construtor
     public Simulador() 
     {
         // Inicializacao de parametros do simulador
-        media_cheg = 1;
-        media_serv = 1.5;
+        media_cheg = 1.2;
+        media_serv_gasolina = 4;
+        media_serv_loja = 1;
         n_clientes = 100;
         // Inicializacao do relogio de simulacao
         instante = 0;
+        instante_final = 100;
         // Criacao do servico
-        servico = new Servico (this);
+        servico_gasolina = new Servico (this,"gasolina");
+        servico_loja = new Servico(this,"loja");
         // Criacao da lista de eventos
         lista = new ListaEventos(this);
         // Agendamento da primeira chegada
         // Se nao for feito, o simulador nao tem eventos para simular
-        insereEvento (new Chegada(instante, this));
+        insereEvento (new Chegada(instante, this,"gasolina"));
     }
 
     // programa principal
@@ -50,7 +58,8 @@ public class Simulador
     // Metodo que actualiza os valores estatisticos do simulador
     private void act_stats()
     {
-        servico.act_stats();
+        servico_gasolina.act_stats();
+        servico_loja.act_stats();
     }
 
     // Metodo que apresenta os resultados de simulacao finais
@@ -59,21 +68,27 @@ public class Simulador
         System.out.println();
         System.out.println("------- Resultados finais -------");
         System.out.println();
-        servico.relat();
+        servico_gasolina.relat();
+        System.out.println();
+        servico_loja.relat();
     }
 
     // Metodo executivo do simulador
     public void executa ()
     {
         Evento e1;
-        // Enquanto nao atender todos os clientes
-        while (servico.getAtendidos() < n_clientes)
+        // Enquanto não chegar ao instante final
+        while (instante < instante_final)
         {
             //lista.print();                     // Mostra lista de eventos - desnecessario; e apenas informativo
             e1 = (Evento)(lista.removeFirst());  // Retira primeiro evento (e o mais iminente) da lista de eventos
+            System.out.println(e1.toString());
             instante = e1.getInstante();         // Actualiza relogio de simulacao
             act_stats();                         // Actualiza valores estatisticos
-            e1.executa(servico);                 // Executa evento
+            if(e1.getTipo().equals("gasolina"))
+                e1.executa(servico_gasolina);                 // Executa evento
+            else
+                e1.executa(servico_loja);
         }
         relat();  // Apresenta resultados de simulacao finais
     }
@@ -91,9 +106,15 @@ public class Simulador
     }
 
     // Metodo que devolve a media dos tempos de servico
-    public double getMedia_serv()
+    public double getMedia_serv_gasolina()
     {
-        return media_serv;
+        return media_serv_gasolina;
     }
 
+    public double getMedia_serv_loja() 
+    {
+        return media_serv_loja;
+    }
+    
+    
 }

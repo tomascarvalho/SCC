@@ -5,6 +5,29 @@ package projecto.pkg2016;
 
 public class Cliente 
 {
+    private int tipo;
+    private String local;
     
+    Cliente(int tipo, String local)
+    {
+        this.tipo = tipo;
+        this.local = local;
+    }
 
+    public int getTipo() 
+    {
+        return tipo;
+    }
+
+    public String getLocal() 
+    {
+        return local;
+    }
+
+    public void setLocal(String local) 
+    {
+        this.local = local;
+    }
+    
+    
 }
