@@ -1,6 +1,9 @@
 package projecto.pkg2016;
 
-public class Simulador 
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Simulador extends InterfaceSimulador
 {
     // Relogio de simulacao - variavel que contem o valor do tempo em cada instante
     private double instante;
@@ -9,9 +12,7 @@ public class Simulador
     // Numero de clientes que vao ser atendidos
     private int n_clientes;
     // Servico - pode haver mais do que um num simulador
-    private Servico servico_gasolina;
-    
-    private Servico servico_loja;
+    private Servico servico_gasolina, servico_loja, servico_gasoleo;
     // Lista de eventos - onde ficam registados todos os eventos que vao ocorrer na simulacao
     // Cada simulador so tem uma
     private ListaEventos lista;
@@ -22,22 +23,34 @@ public class Simulador
     // Construtor
     public Simulador() 
     {
+        super();
+        ArrayList<String> list = InitSimulador.run();
+        initComponents();
         // Inicializacao de parametros do simulador
-        media_cheg = 1.2;
-        media_serv_bomba = 4;
-        media_serv_loja = 1;
+        media_cheg = Double.parseDouble(list.get(1));
+        media_serv_bomba = Double.parseDouble(list.get(2));
+        media_serv_loja = Double.parseDouble(list.get(3));
         n_clientes = 100;
         // Inicializacao do relogio de simulacao
         instante = 0;
-        instante_final = 11;
+        this.instante_final = Integer.parseInt(list.get(0));;
         // Criacao do servico
-        servico_gasolina = new Servico (this,"gasolina");
-        servico_loja = new Servico(this,"loja");
+        servico_gasolina = new Servico (this,"gasolina",Integer.parseInt(list.get(5)));
+        servico_loja = new Servico(this,"loja",Integer.parseInt(list.get(4)));
+        servico_gasoleo = new Servico(this,"gasoleo",Integer.parseInt(list.get(6)));
         // Criacao da lista de eventos
         lista = new ListaEventos(this);
         // Agendamento da primeira chegada
         // Se nao for feito, o simulador nao tem eventos para simular
-        insereEvento (new Chegada(instante, this, servico_gasolina));
+        Double random = RandomGenerator.rand(2);
+        if(random<=0.2)
+        {
+            insereEvento (new Chegada(instante, this, servico_gasoleo));
+        }
+        else
+        {
+            insereEvento (new Chegada(instante, this, servico_gasolina));
+        }
     }
 
     // programa principal
@@ -46,7 +59,10 @@ public class Simulador
         // Cria um simulador e
         Simulador s = new Simulador();
         // poe-o em marcha
+        
         s.executa();
+        s.setVisible(true);
+        s.refreshGUI();
     }
 
     // Metodo que insere o evento e1 na lista de eventos
@@ -60,6 +76,7 @@ public class Simulador
     {
         servico_gasolina.act_stats();
         servico_loja.act_stats();
+        servico_gasoleo.act_stats();
     }
 
     // Metodo que apresenta os resultados de simulacao finais
@@ -69,6 +86,8 @@ public class Simulador
         System.out.println("------- Resultados finais -------");
         System.out.println();
         servico_gasolina.relat();
+        System.out.println();
+        servico_gasoleo.relat();
         System.out.println();
         servico_loja.relat();
     }
@@ -116,6 +135,16 @@ public class Simulador
     public Servico getServico_loja() 
     {
         return servico_loja;
+    }
+
+    public Servico getServico_gasolina() 
+    {
+        return servico_gasolina;
+    }
+
+    public Servico getServico_gasoleo() 
+    {
+        return servico_gasoleo;
     }
     
     

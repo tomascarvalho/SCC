@@ -12,12 +12,14 @@ public class Servico
     private double temp_ult, soma_temp_esp, soma_temp_serv; // Variaveis para calculos estatcsticos
     private Vector<Cliente> fila;                           // Fila de espera do servico
     private Simulador s;                                    // Referencia para o simulador a que pertence o servico
-
+    private int n_empregados;
+    
     // Construtor
-    Servico (Simulador s, String tipo)
+    Servico (Simulador s, String tipo, int n_empregados)
     {
     	this.s = s;
         this.tipo = tipo;
+        this.n_empregados = n_empregados;
         fila = new Vector <Cliente>();      // Cria fila de espera
         estado = 0;                         // Livre
         temp_ult = s.getInstante();         // Tempo que passou desde o ultimo evento. Neste caso 0, porque a simulacao ainda nao comecou.
@@ -29,7 +31,7 @@ public class Servico
     // Metodo que insere cliente (c) no servico
     public void insereServico (Cliente c)
     {
-        if (estado == 0) // Se servico livre,
+        if (estado < n_empregados) // Se servico livre,
         { 
             estado ++;     // fica ocupado e
             // agenda saida do cliente c para daqui a s.getMedia_serv() instantes
@@ -106,6 +108,33 @@ public class Servico
         // Apresenta resultados
         
         System.out.println("------- "+tipo.toUpperCase()+" -------\n");
+        if(tipo.equals("loja"))
+        {
+            s.label_temp_medio_espera_loja.setText(s.label_temp_medio_espera_loja.getText()+temp_med_fila);
+            s.label_comp_medio_fila_loja.setText(s.label_comp_medio_fila_loja.getText()+comp_med_fila);
+            s.label_util_serv_loja.setText(s.label_util_serv_loja.getText()+utilizacao_serv);
+            s.label_temp_sim_loja.setText(s.label_temp_sim_loja.getText()+s.getInstante());
+            s.label_n_client_atend_loja.setText(s.label_n_client_atend_loja.getText()+atendidos);
+            s.label_n_client_fila_loja.setText(s.label_n_client_fila_loja.getText()+fila.size());
+        }
+        else if(tipo.equals("gasolina"))
+        {
+            s.label_temp_medio_espera_gasolina.setText(s.label_temp_medio_espera_gasolina.getText()+temp_med_fila);
+            s.label_comp_medio_fila_gasolina.setText(s.label_comp_medio_fila_gasolina.getText()+comp_med_fila);
+            s.label_util_serv_gasolina.setText(s.label_util_serv_gasolina.getText()+utilizacao_serv);
+            s.label_temp_sim_gasolina.setText(s.label_temp_sim_gasolina.getText()+s.getInstante());
+            s.label_n_client_atend_gasolina.setText(s.label_n_client_atend_gasolina.getText()+atendidos);
+            s.label_n_client_fila_gasolina.setText(s.label_n_client_fila_gasolina.getText()+fila.size());
+        }
+        else if(tipo.equals("gasoleo"))
+        {
+            s.label_temp_medio_espera_gasoleo.setText(s.label_temp_medio_espera_gasoleo.getText()+temp_med_fila);
+            s.label_comp_medio_fila_gasoleo.setText(s.label_comp_medio_fila_gasoleo.getText()+comp_med_fila);
+            s.label_util_serv_gasoleo.setText(s.label_util_serv_gasoleo.getText()+utilizacao_serv);
+            s.label_temp_sim_gasoleo.setText(s.label_temp_sim_gasoleo.getText()+s.getInstante());
+            s.label_n_client_atend_gasoleo.setText(s.label_n_client_atend_gasoleo.getText()+atendidos);
+            s.label_n_client_fila_gasoleo.setText(s.label_n_client_fila_gasoleo.getText()+fila.size());
+        }
         System.out.println("Tempo medio de espera "+temp_med_fila);
         System.out.println("Comp. medio da fila "+comp_med_fila);
         System.out.println("Utilizacao do servico "+utilizacao_serv);

@@ -18,7 +18,16 @@ public class Chegada extends Evento
 	// Coloca cliente no servico - na fila ou a ser atendido, conforme o caso
         tipo.insereServico (new Cliente());
         // Agenda nova chegada para daqui a Aleatorio.exponencial(s.media_cheg) instantes
-        s.insereEvento (new Chegada(s.getInstante()+Aleatorio.exponencial(s.getMedia_cheg()), s,tipo));
+        Double random = RandomGenerator.rand(2);
+        if(random<0.2)
+        {
+            s.insereEvento (new Chegada(s.getInstante()+Aleatorio.exponencial(s.getMedia_cheg()), s,s.getServico_gasoleo()));
+        }
+        else
+        {
+            s.insereEvento (new Chegada(s.getInstante()+Aleatorio.exponencial(s.getMedia_cheg()), s,s.getServico_gasolina()));
+        }
+        
     }
 
     // Metodo que descreve o evento.
