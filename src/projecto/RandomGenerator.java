@@ -1,4 +1,3 @@
-package projecto.pkg2016;
 
 /* Prime modulus multiplicative linear congruential pseudo random number generator
 

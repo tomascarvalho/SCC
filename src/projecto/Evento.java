@@ -1,4 +1,3 @@
-package projecto.pkg2016;
 
 // Classe de onde vao ser derivados todos os eventos.
 // Contem apenas os atributos e metodos comuns a todos os eventos.

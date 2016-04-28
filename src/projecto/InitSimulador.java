@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projecto.pkg2016;
+
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -35,10 +35,17 @@ public class InitSimulador
         JTextField tempo_execucao = new JTextField("");
         JTextField intervalo_chegada = new JTextField("");
         JTextField tempo_atendimento_bomba = new JTextField("");
+        JTextField desvio_bomba = new JTextField("");
         JTextField tempo_atendimento_loja = new JTextField("");
+        JTextField desvio_loja = new JTextField("");
         JTextField n_loja = new JTextField("");
         JTextField n_gasolina = new JTextField("");
         JTextField n_gasoleo = new JTextField("");
+        ButtonGroup buttonGroup = new ButtonGroup();
+        JRadioButton cenario_1 = new JRadioButton("Cenario 1",true);
+        JRadioButton cenario_2 = new JRadioButton("Cenario 2",false);
+        buttonGroup.add(cenario_1);
+        buttonGroup.add(cenario_2);
         JPanel panel = new JPanel(new GridLayout(0,1));
         panel.add(new JLabel("Tempo de execucao:"));
         panel.add(tempo_execucao);
@@ -46,19 +53,25 @@ public class InitSimulador
         panel.add(intervalo_chegada);
         panel.add(new JLabel("Tempo medio de atendimento nas bombas:"));
         panel.add(tempo_atendimento_bomba);
+        panel.add(new JLabel("Desvio padrão nas bombas:"));
+        panel.add(desvio_bomba);
         panel.add(new JLabel("Tempo medio de atendimento na loja:"));
         panel.add(tempo_atendimento_loja);
+        panel.add(new JLabel("Desvio padrão na loja:"));
+        panel.add(desvio_loja);
         panel.add(new JLabel("Numero de funcionarios na loja:"));
         panel.add(n_loja);
         panel.add(new JLabel("Numero de funcionarios na bomba de gasolina:"));
         panel.add(n_gasolina);
         panel.add(new JLabel("Numero de funcionarios na bomba de gasoleo:"));
         panel.add(n_gasoleo);
+        panel.add(cenario_1);
+        panel.add(cenario_2);
         int result = JOptionPane.showConfirmDialog(null, panel,"Configuracao do Simulador",JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if(result == JOptionPane.OK_OPTION)
         {
             if(!"".equals(tempo_execucao.getText()) && !"".equals(intervalo_chegada.getText()) && !"".equals(tempo_atendimento_bomba.getText()) && !"".equals(tempo_atendimento_loja.getText()) && 
-                    !"".equals(n_loja.getText()) && !"".equals(n_gasolina.getText()) && !"".equals(n_gasoleo.getText()))
+                    !"".equals(n_loja.getText()) && !"".equals(n_gasolina.getText()) && !"".equals(n_gasoleo.getText()) && !"".equals(desvio_bomba.getText()) && !"".equals(desvio_loja.getText()))
             {
                 list.add(tempo_execucao.getText());
                 list.add(intervalo_chegada.getText());
@@ -67,6 +80,8 @@ public class InitSimulador
                 list.add(n_loja.getText());
                 list.add(n_gasolina.getText());
                 list.add(n_gasoleo.getText());
+                list.add(desvio_bomba.getText());
+                list.add(desvio_loja.getText());
                 try
                 {
                     for(int i=0;i<list.size();i++)
@@ -78,6 +93,14 @@ public class InitSimulador
                 {
                     JOptionPane.showMessageDialog(null, "Por favor coloque apenas números!");
                     run();
+                }
+                if(cenario_1.isSelected()==true)
+                {
+                    list.add("1");
+                }
+                else if(cenario_2.isSelected()==true)
+                {
+                    list.add("2");
                 }
             }
             else

@@ -1,4 +1,4 @@
-package projecto.pkg2016;
+
 
 import java.util.*;
 
@@ -31,6 +31,7 @@ public class Servico
     // Metodo que insere cliente (c) no servico
     public void insereServico (Cliente c)
     {
+        double media[];
         if (estado < n_empregados) // Se servico livre,
         { 
             estado ++;     // fica ocupado e
@@ -38,11 +39,18 @@ public class Servico
             
             if(tipo.equals("loja"))
             {
-                s.insereEvento (new Saida((s.getInstante()+s.getMedia_serv_loja()),s,this));
+                media = Aleatorio.normal(s.getMedia_serv_loja(),s.getDesvio_loja(),10);
+                s.insereEvento (new Saida((s.getInstante()+media[0]),s,this));
+            }
+            else if(tipo.equals("selfservice"))
+            {
+                media = Aleatorio.normal(s.getMedia_serv_bomba(),s.getDesvio_bombas(),20);
+                s.insereEvento (new Saida((s.getInstante()+media[0]),s,this));
             }
             else
             {
-                s.insereEvento(new Transicao((s.getInstante()+s.getMedia_serv_bomba()),s,this));
+                media = Aleatorio.normal(s.getMedia_serv_bomba(),s.getDesvio_bombas(),30);
+                s.insereEvento(new Transicao((s.getInstante()+media[0]),s,this));
             }
             
                        
@@ -54,6 +62,7 @@ public class Servico
     public Cliente removeServico ()
     {
         Cliente c = null;
+        double media[];
         atendidos++; // Regista que acabou de atender + 1 cliente
         if (fila.size()== 0)
         {
@@ -69,13 +78,19 @@ public class Servico
             
             if(tipo.equals("loja"))
             {
-                s.insereEvento (new Saida((s.getInstante()+s.getMedia_serv_loja()),s,this));
+                media = Aleatorio.normal(s.getMedia_serv_loja(),s.getDesvio_loja(),10);
+                s.insereEvento (new Saida((s.getInstante()+media[0]),s,this));
+            }
+            else if(tipo.equals("selfservice"))
+            {
+                media = Aleatorio.normal(s.getMedia_serv_bomba(),s.getDesvio_bombas(),20);
+                s.insereEvento (new Saida((s.getInstante()+media[0]),s,this));
             }
             else
             {
-                s.insereEvento(new Transicao((s.getInstante()+s.getMedia_serv_bomba()),s,this));
+                media = Aleatorio.normal(s.getMedia_serv_bomba(),s.getDesvio_bombas(),30);
+                s.insereEvento(new Transicao((s.getInstante()+media[0]),s,this));
             }
-            
         }
         return c;
     }
@@ -108,32 +123,41 @@ public class Servico
         // Apresenta resultados
         
         System.out.println("------- "+tipo.toUpperCase()+" -------\n");
-        if(tipo.equals("loja"))
+        if(tipo.equals("loja") && s.getCenario() == 1)
         {
             s.label_temp_medio_espera_loja.setText(s.label_temp_medio_espera_loja.getText()+temp_med_fila);
             s.label_comp_medio_fila_loja.setText(s.label_comp_medio_fila_loja.getText()+comp_med_fila);
-            s.label_util_serv_loja.setText(s.label_util_serv_loja.getText()+utilizacao_serv);
+            s.label_util_serv_loja.setText(s.label_util_serv_loja.getText()+(utilizacao_serv/n_empregados));
             s.label_temp_sim_loja.setText(s.label_temp_sim_loja.getText()+s.getInstante());
             s.label_n_client_atend_loja.setText(s.label_n_client_atend_loja.getText()+atendidos);
             s.label_n_client_fila_loja.setText(s.label_n_client_fila_loja.getText()+fila.size());
         }
-        else if(tipo.equals("gasolina"))
+        else if(tipo.equals("gasolina") && s.getCenario() == 1)
         {
             s.label_temp_medio_espera_gasolina.setText(s.label_temp_medio_espera_gasolina.getText()+temp_med_fila);
             s.label_comp_medio_fila_gasolina.setText(s.label_comp_medio_fila_gasolina.getText()+comp_med_fila);
-            s.label_util_serv_gasolina.setText(s.label_util_serv_gasolina.getText()+utilizacao_serv);
+            s.label_util_serv_gasolina.setText(s.label_util_serv_gasolina.getText()+(utilizacao_serv/n_empregados));
             s.label_temp_sim_gasolina.setText(s.label_temp_sim_gasolina.getText()+s.getInstante());
             s.label_n_client_atend_gasolina.setText(s.label_n_client_atend_gasolina.getText()+atendidos);
             s.label_n_client_fila_gasolina.setText(s.label_n_client_fila_gasolina.getText()+fila.size());
         }
-        else if(tipo.equals("gasoleo"))
+        else if(tipo.equals("gasoleo") && s.getCenario() == 1)
         {
             s.label_temp_medio_espera_gasoleo.setText(s.label_temp_medio_espera_gasoleo.getText()+temp_med_fila);
             s.label_comp_medio_fila_gasoleo.setText(s.label_comp_medio_fila_gasoleo.getText()+comp_med_fila);
-            s.label_util_serv_gasoleo.setText(s.label_util_serv_gasoleo.getText()+utilizacao_serv);
+            s.label_util_serv_gasoleo.setText(s.label_util_serv_gasoleo.getText()+(utilizacao_serv/n_empregados));
             s.label_temp_sim_gasoleo.setText(s.label_temp_sim_gasoleo.getText()+s.getInstante());
             s.label_n_client_atend_gasoleo.setText(s.label_n_client_atend_gasoleo.getText()+atendidos);
             s.label_n_client_fila_gasoleo.setText(s.label_n_client_fila_gasoleo.getText()+fila.size());
+        }
+        else if(tipo.equals("selfservice") && s.getCenario() == 2)
+        {
+            s.label_temp_medio_espera_gasolina.setText(s.label_temp_medio_espera_gasolina.getText()+temp_med_fila);
+            s.label_comp_medio_fila_gasolina.setText(s.label_comp_medio_fila_gasolina.getText()+comp_med_fila);
+            s.label_util_serv_gasolina.setText(s.label_util_serv_gasolina.getText()+(utilizacao_serv/n_empregados));
+            s.label_temp_sim_gasolina.setText(s.label_temp_sim_gasolina.getText()+s.getInstante());
+            s.label_n_client_atend_gasolina.setText(s.label_n_client_atend_gasolina.getText()+atendidos);
+            s.label_n_client_fila_gasolina.setText(s.label_n_client_fila_gasolina.getText()+fila.size());
         }
         System.out.println("Tempo medio de espera "+temp_med_fila);
         System.out.println("Comp. medio da fila "+comp_med_fila);
@@ -149,4 +173,8 @@ public class Servico
         return atendidos;
     }
 
+    public String getTipo()
+    {
+        return tipo;
+    }
 }

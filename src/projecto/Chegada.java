@@ -1,4 +1,4 @@
-package projecto.pkg2016;
+
 
 // Classe que representa a chegada de um cliente. Deriva de Evento.
 
@@ -17,17 +17,23 @@ public class Chegada extends Evento
     {
 	// Coloca cliente no servico - na fila ou a ser atendido, conforme o caso
         tipo.insereServico (new Cliente());
-        // Agenda nova chegada para daqui a Aleatorio.exponencial(s.media_cheg) instantes
         Double random = RandomGenerator.rand(2);
-        if(random<0.2)
+        if(tipo.getTipo().equals("selfservice"))
         {
-            s.insereEvento (new Chegada(s.getInstante()+Aleatorio.exponencial(s.getMedia_cheg()), s,s.getServico_gasoleo()));
+            s.insereEvento(new Chegada(s.getInstante()+Aleatorio.exponencial(s.getMedia_cheg()), s,tipo));
         }
+        // Agenda nova chegada para daqui a Aleatorio.exponencial(s.media_cheg) instantes
         else
         {
-            s.insereEvento (new Chegada(s.getInstante()+Aleatorio.exponencial(s.getMedia_cheg()), s,s.getServico_gasolina()));
+            if(random<0.2)
+            {
+                s.insereEvento (new Chegada(s.getInstante()+Aleatorio.exponencial(s.getMedia_cheg()), s,s.getServico_gasoleo()));
+            }
+            else
+            {
+                s.insereEvento (new Chegada(s.getInstante()+Aleatorio.exponencial(s.getMedia_cheg()), s,s.getServico_gasolina()));
+            }
         }
-        
     }
 
     // Metodo que descreve o evento.

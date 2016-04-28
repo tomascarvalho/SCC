@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projecto.pkg2016;
+
 
 import java.awt.*;
 import javax.swing.*;
@@ -42,7 +42,7 @@ public class InterfaceSimulador extends JFrame
     protected JTabbedPane tabbed_pane = new JTabbedPane();
     
     
-    protected void initComponents()
+    protected void initComponents(int cenario)
     {
         try
         {
@@ -143,10 +143,17 @@ public class InterfaceSimulador extends JFrame
         box_panel_gasoleo.add(Box.createVerticalGlue());
         
         panel_gasoleo.add(box_panel_gasoleo,BorderLayout.CENTER);
-        
-        tabbed_pane.addTab("Loja",panel_loja);
-        tabbed_pane.addTab("Gasolina",panel_gasolina);
-        tabbed_pane.addTab("Gasoleo",panel_gasoleo);
+
+        if(cenario == 1)
+        {
+            tabbed_pane.addTab("Loja",panel_loja);
+            tabbed_pane.addTab("Gasolina",panel_gasolina);
+            tabbed_pane.addTab("Gasoleo",panel_gasoleo);
+        }
+        else if(cenario == 2)
+        {
+            tabbed_pane.addTab("Bombas Self-Service",panel_gasolina);
+        }
         this.add(tabbed_pane);
         this.getContentPane().setBackground(Color.DARK_GRAY);
         this.setSize(500, 400);

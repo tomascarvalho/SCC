@@ -1,4 +1,4 @@
-package projecto.pkg2016;
+
 
 // Classe que representa a saida de um cliente. Deriva de Evento.
 

@@ -1,4 +1,4 @@
-package projecto.pkg2016;
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,8 +11,10 @@ public class Simulador extends InterfaceSimulador
     private double media_cheg, media_serv_bomba;
     // Numero de clientes que vao ser atendidos
     private int n_clientes;
+
+    private double desvio_bombas, desvio_loja;
     // Servico - pode haver mais do que um num simulador
-    private Servico servico_gasolina, servico_loja, servico_gasoleo;
+    private Servico servico_gasolina, servico_loja, servico_gasoleo, self_service;
     // Lista de eventos - onde ficam registados todos os eventos que vao ocorrer na simulacao
     // Cada simulador so tem uma
     private ListaEventos lista;
@@ -20,12 +22,13 @@ public class Simulador extends InterfaceSimulador
     private double instante_final;
 
     private double media_serv_loja;
+
+    private int cenario;
     // Construtor
     public Simulador() 
     {
         super();
         ArrayList<String> list = InitSimulador.run();
-        initComponents();
         // Inicializacao de parametros do simulador
         media_cheg = Double.parseDouble(list.get(1));
         media_serv_bomba = Double.parseDouble(list.get(2));
@@ -38,18 +41,31 @@ public class Simulador extends InterfaceSimulador
         servico_gasolina = new Servico (this,"gasolina",Integer.parseInt(list.get(5)));
         servico_loja = new Servico(this,"loja",Integer.parseInt(list.get(4)));
         servico_gasoleo = new Servico(this,"gasoleo",Integer.parseInt(list.get(6)));
+        self_service = new Servico(this,"selfservice",Integer.parseInt(list.get(5)));
+
+        desvio_bombas = Double.parseDouble(list.get(7));
+        desvio_loja = Double.parseDouble(list.get(8));
         // Criacao da lista de eventos
         lista = new ListaEventos(this);
         // Agendamento da primeira chegada
         // Se nao for feito, o simulador nao tem eventos para simular
+        this.cenario = Integer.parseInt(list.get(9));
+        initComponents(this.cenario);
         Double random = RandomGenerator.rand(2);
-        if(random<=0.2)
+        if(list.get(9).equals("1"))
         {
-            insereEvento (new Chegada(instante, this, servico_gasoleo));
+            if(random<=0.2)
+            {
+                insereEvento (new Chegada(instante, this, servico_gasoleo));
+            }
+            else
+            {
+                insereEvento (new Chegada(instante, this, servico_gasolina));
+            }
         }
         else
         {
-            insereEvento (new Chegada(instante, this, servico_gasolina));
+            insereEvento(new Chegada(instante,this,self_service));
         }
     }
 
@@ -77,6 +93,7 @@ public class Simulador extends InterfaceSimulador
         servico_gasolina.act_stats();
         servico_loja.act_stats();
         servico_gasoleo.act_stats();
+        self_service.act_stats();
     }
 
     // Metodo que apresenta os resultados de simulacao finais
@@ -90,6 +107,8 @@ public class Simulador extends InterfaceSimulador
         servico_gasoleo.relat();
         System.out.println();
         servico_loja.relat();
+        System.out.println();
+        self_service.relat();
     }
 
     // Metodo executivo do simulador
@@ -146,7 +165,26 @@ public class Simulador extends InterfaceSimulador
     {
         return servico_gasoleo;
     }
-    
-    
+
+    public int getCenario()
+    {
+        return cenario;
+    }
+
+    public double getDesvio_bombas() {
+        return desvio_bombas;
+    }
+
+    public double getDesvio_loja() {
+        return desvio_loja;
+    }
+
+    /*
+    * i) Ugasoleo ~= 64%
+    *    Ugasolina (3) ~= 96%
+    *    Uloja ~= 86%
+    *
+    * ii) U ~= 94%
+    * */
     
 }
