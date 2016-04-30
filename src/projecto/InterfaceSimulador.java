@@ -102,6 +102,7 @@ public class InterfaceSimulador extends JFrame
         label_temp_medio_espera_gasolina = new JLabel("Tempo medio de espera: ");
         box_panel_gasolina.add(label_temp_medio_espera_gasolina,BorderLayout.CENTER);
         box_panel_gasolina.add(Box.createVerticalGlue());
+        
         label_comp_medio_fila_gasolina = new JLabel("Comprimento medio da fila: ");
         box_panel_gasolina.add(label_comp_medio_fila_gasolina);
         box_panel_gasolina.add(Box.createVerticalGlue());

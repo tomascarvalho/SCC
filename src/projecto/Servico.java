@@ -161,7 +161,7 @@ public class Servico
         }
         System.out.println("Tempo medio de espera "+temp_med_fila);
         System.out.println("Comp. medio da fila "+comp_med_fila);
-        System.out.println("Utilizacao do servico "+utilizacao_serv);
+        System.out.println("Utilizacao do servico "+utilizacao_serv/n_empregados);
         System.out.println("Tempo de simulacao "+s.getInstante()); // Valor actual
         System.out.println("Numero de clientes atendidos "+atendidos);
         System.out.println("Numero de clientes na fila "+fila.size()); // Valor actual

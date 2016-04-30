@@ -33,14 +33,14 @@ public class InitSimulador
         }
         ArrayList<String> list = new ArrayList<>();
         JTextField tempo_execucao = new JTextField("");
-        JTextField intervalo_chegada = new JTextField("");
-        JTextField tempo_atendimento_bomba = new JTextField("");
-        JTextField desvio_bomba = new JTextField("");
-        JTextField tempo_atendimento_loja = new JTextField("");
-        JTextField desvio_loja = new JTextField("");
-        JTextField n_loja = new JTextField("");
-        JTextField n_gasolina = new JTextField("");
-        JTextField n_gasoleo = new JTextField("");
+        JTextField intervalo_chegada = new JTextField("1.2");
+        JTextField tempo_atendimento_bomba = new JTextField("4");
+        JTextField desvio_bomba = new JTextField("2.5");
+        JTextField tempo_atendimento_loja = new JTextField("1");
+        JTextField desvio_loja = new JTextField("0.5");
+        JTextField n_loja = new JTextField("1");
+        JTextField n_gasolina = new JTextField("2");
+        JTextField n_gasoleo = new JTextField("1");
         ButtonGroup buttonGroup = new ButtonGroup();
         JRadioButton cenario_1 = new JRadioButton("Cenario 1",true);
         JRadioButton cenario_2 = new JRadioButton("Cenario 2",false);
